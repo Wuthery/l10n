@@ -1,0 +1,29 @@
+name: Crowdin
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  synchronize-with-crowdin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: crowdin action
+        uses: crowdin/github-action@v1
+        with:
+          upload_sources: true
+          upload_translations: true
+          auto_approve_imported: true
+          download_sources: true
+          download_translations: true
+          push_translations: true
+          push_sources: true
+          commit_message: "chore(l10n): Update translations"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
