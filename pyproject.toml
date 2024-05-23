@@ -1,0 +1,109 @@
+[project]
+name = "wuthery.l10n"
+
+[tool.poetry]
+authors = ["seria <seria.ati@gmail.com>"]
+description = "Python package to interact with Wuthery's localization files."
+license = "GPL-3.0"
+name = "wuthery-l10n"
+packages = [{include = "wuthery"}]
+readme = "README.md"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+aiofiles = "^23.2.1"
+aiohttp = "^3.9.5"
+python = "^3.11"
+pyyaml = "^6.0.1"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.1"
+ruff = "^0.4.5"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.2.1"
+pytest-asyncio = "^0.23.7"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+ignore = [
+  "E501",
+  "ANN401",
+  "ANN101",
+  "ANN102",
+  "PLR0913",
+  "PLR2004",
+  "PLR0917",
+  "PLR6301",
+  "ANN002",
+  "ERA001",
+  "RUF100",
+  "D105",
+  "D107",
+]
+preview = true
+select = [
+  "E",
+  "W",
+  "C90",
+  "F",
+  "UP",
+  "B",
+  "SIM",
+  "I",
+  "N",
+  "TCH",
+  "ANN",
+  "ASYNC",
+  "A",
+  "C4",
+  "EM",
+  "FA",
+  "ICN",
+  "G",
+  "PIE",
+  "T20",
+  "ARG",
+  "ERA",
+  "LOG",
+  "PL",
+  "TRY",
+  "D",
+  "RUF",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F403", "F401"]
+"./migrations/*.py" = ["ALL"]
+"hoyo_buddy/draw/**/*.py" = ["PLR", "C"]
+"hoyo_buddy/models.py" = ["TCH002"]
+"playground.*.py" = ["ALL"]
+
+[tool.ruff.lint.flake8-type-checking]
+quote-annotations = true
+
+[tool.pyright]
+ignore = [
+  "hoyo_buddy/db/models.py",
+]
+
+reportIncompatibleMethodOverride = false
+reportIncompatibleVariableOverride = false
+
+[tool.ruff.lint.mccabe]
+max-complexity = 15
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
