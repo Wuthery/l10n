@@ -33,14 +33,14 @@ jobs:
 
       - name: Commit auto-fix changes
         run: |
-          git commit -m "fix: Apply ruff auto-fixes"
+          git diff-index --quiet HEAD || git commit -m "fix: Apply ruff auto-fixes"
       
       - name: Run formatter
         run: ruff format .
 
       - name: Commit formatting changes
         run: |
-          git commit -m "style: Apply ruff formatting"
+          git diff-index --quiet HEAD || git commit -m "style: Apply ruff formatting"
       
       - name: Push changes
         run: git push origin main
