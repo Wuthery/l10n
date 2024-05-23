@@ -3,6 +3,7 @@ name: Crowdin
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   synchronize-with-crowdin:
@@ -12,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: crowdin action
+      - name: Crowdin Action
         uses: crowdin/github-action@v1
         with:
           upload_sources: true
@@ -22,8 +23,10 @@ jobs:
           download_translations: true
           push_translations: true
           push_sources: true
+          source: "l10n/en.json"
+          translation: "l10n/%locale%.json"
           commit_message: "chore(l10n): Update translations"
+          project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
+          token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
-          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
