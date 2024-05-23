@@ -33,6 +33,7 @@ jobs:
 
       - name: Commit auto-fix changes
         run: |
+          git add .
           git diff-index --quiet HEAD || git commit -m "fix: Apply ruff auto-fixes"
       
       - name: Run formatter
@@ -40,6 +41,7 @@ jobs:
 
       - name: Commit formatting changes
         run: |
+          git add .
           git diff-index --quiet HEAD || git commit -m "style: Apply ruff formatting"
       
       - name: Push changes

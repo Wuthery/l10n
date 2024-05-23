@@ -34,6 +34,7 @@ jobs:
       
       - name: Commit changes
         run: |
+          git add .
           git diff-index --quiet HEAD || git commit -m "chore(l10n): Convert YAML to JSON"
       
       - name: Push changes
