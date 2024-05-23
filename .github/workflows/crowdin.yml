@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  synchronize-with-crowdin:
+  sync-with-crowdin:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
           source: "l10n/en.yml"
           translation: "l10n/%locale%.yml"
           
-          commit_message: "chore(l10n): Update translations"
+          commit_message: "chore(l10n): Sync with Crowdin"
           localization_branch_name: "main"
           pull_request_base_branch_name: "main"
           
