@@ -23,8 +23,8 @@ jobs:
           download_translations: true
           push_translations: true
           push_sources: true
-          source: "l10n/en.json"
-          translation: "l10n/%locale%.json"
+          source: "l10n/en.yml"
+          translation: "l10n/%locale%.yml"
           commit_message: "chore(l10n): Update translations"
           project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
           token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
