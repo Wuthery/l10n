@@ -97,7 +97,7 @@ class Translator:
         # Translate the key
         if key not in self.localizations[lang]:
             if use_fallback:
-                msg = f"Key {key} not found in localization file for {lang}. Falling back to {SOURCE_LANG}."
+                msg = f"Key {key!r} not found in localization file for {lang}. Falling back to {SOURCE_LANG}."
                 LOGGER_.warning(msg)
                 return self.translate(key, lang, use_fallback=False)
 
