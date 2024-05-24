@@ -28,7 +28,7 @@ class Translator:
     """
 
     def __init__(self) -> None:
-        self.localizations: dict[Language, dict[int, str]] = {}
+        self.localizations: dict[Language, dict[str, str]] = {}
         self._session: aiohttp.ClientSession | None = None
 
     async def __aenter__(self) -> Self:
@@ -68,7 +68,7 @@ class Translator:
                 LOGGER_.info("Fetched localization for %s.", lang)
 
     def translate(
-        self, key: int, lang: Language | str, *, use_fallback: bool = True, **kwargs: Any
+        self, key: str, lang: Language | str, *, use_fallback: bool = True, **kwargs: Any
     ) -> str:
         """Translate a key to a language.
 
