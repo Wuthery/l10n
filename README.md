@@ -8,7 +8,7 @@ Storage of localization files for Wuthery services, with Python and TS packages 
 
 ```bash
 # Clone the repo
-git clone https://https://github.com/Wuthery/l10n
+git clone https://github.com/Wuthery/l10n
 
 # Install the dependencies
 cd l10n
