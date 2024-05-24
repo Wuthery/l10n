@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Any, Self
 
@@ -58,14 +59,19 @@ class Translator:
     async def fetch_localizations(self) -> None:
         """Fetch localizations from Wuthery's l10n repository."""
         for lang in Language:
-            async with self.session.get(FILE_LOCATION.format(lang=lang.value)) as resp:
-                if resp.status != 200:
-                    LOGGER_.warning("Failed to fetch localization file for %s.", lang)
-                    continue
+            async with asyncio.TaskGroup() as tg:
+                tg.create_task(self.fetch_localization(lang))
 
-                data = await resp.text()
-                self.localizations[lang] = yaml.safe_load(data)
-                LOGGER_.info("Fetched localization for %s.", lang)
+    async def fetch_localization(self, lang: Language) -> None:
+        """Fetch a localization file for a language."""
+        async with self.session.get(FILE_LOCATION.format(lang=lang.value)) as resp:
+            if resp.status != 200:
+                LOGGER_.warning("Failed to fetch localization file for %s.", lang)
+                return
+
+            data = await resp.text()
+            self.localizations[lang] = yaml.safe_load(data)
+            LOGGER_.info("Fetched localization for %s.", lang)
 
     def translate(
         self, key: str, lang: Language | str, *, use_fallback: bool = True, **kwargs: Any
