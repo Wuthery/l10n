@@ -2,7 +2,7 @@ import React, { useContext, useState, createContext, useEffect } from 'react';
 import { Language } from './enum';
 import { fetchTranslations } from './translations';
 
-const LANGUAGE_KEY = 'wuthery-----lang';
+const LANGUAGE_KEY = 'wutheryLang';
 
 const mapToSupportedLanguage = (lang: string): Language => {
     switch (lang) {
