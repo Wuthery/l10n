@@ -7,4 +7,4 @@ export enum Language {
     ES = "es-ES",
     JA = "ja-JP",
     KO = "ko-KR"
-}
+};

@@ -1,38 +1,17 @@
 import React, { useContext, useState, createContext, useEffect } from 'react';
+import { setCookie } from 'cookies-next';
+
+import { fetchTranslation } from './translations';
+import { LANGUAGE_KEY } from './constants';
 import { Language } from './enum';
-import { fetchTranslations } from './translations';
 
-const LANGUAGE_KEY = 'wutheryLang';
-
-const mapToSupportedLanguage = (lang: string): Language => {
-    switch (lang) {
-        case 'en':
-            return Language.EN_US;
-        case 'zh-TW':
-            return Language.ZH_TW;
-        case 'zh-CN':
-            return Language.ZH_CN;
-        case 'uk':
-            return Language.UA;
-        case 'de':
-            return Language.DE;
-        case 'es':
-            return Language.ES;
-        case 'ja':
-            return Language.JA;
-        case 'ko':
-            return Language.KO;
-        default:
-            return Language.EN_US; // Fallback to English (US) if not matched
-    }
-};
 
 interface I18nContextProps {
     language: Language;
     translations: any;
     changeLanguage: (lang: Language) => void;
-    getTranslation: (key: number, variables?: any) => string;
-}
+    getTranslation: (key: string, variables?: any) => string;
+};
 
 const I18nContext = createContext<I18nContextProps>({
     language: Language.EN_US,
@@ -43,36 +22,31 @@ const I18nContext = createContext<I18nContextProps>({
 
 type I18nProviderProps = {
     children?: React.ReactNode;
+    initialLanguage: Language;
+    initialTranslations: any;
 };
 
-export const I18nProvider: React.FC<I18nProviderProps> = ({ children }) => {
-    const [language, setLanguage] = useState<Language>(Language.EN_US);
-    const [translations, setTranslations] = useState<any>({});
+export const I18nProvider: React.FC<I18nProviderProps> = ({ children, initialLanguage, initialTranslations }) => {
+    const [language, setLanguage] = useState<Language>(initialLanguage);
+    const [translations, setTranslations] = useState<any>(initialTranslations);
 
-    useEffect(() => {
-        const storedLang = localStorage.getItem(LANGUAGE_KEY) as Language | null;
-        const userLang = storedLang || mapToSupportedLanguage(navigator.language);
-        setLanguage(userLang);
-        localStorage.setItem(LANGUAGE_KEY, userLang);
-    
-        fetchTranslations(userLang).then(setTranslations);
-    }, []);
-
-    const changeLanguage = (lang: Language) => {
-        setLanguage(lang);
-        localStorage.setItem(LANGUAGE_KEY, lang);
-        fetchTranslations(lang).then(setTranslations);
+    const changeLanguage = async (lang: Language) => {
+        setLanguage(lang); setCookie(LANGUAGE_KEY, lang);
+        if (!translations[lang]) {
+            const translation = await fetchTranslation(lang);
+            setTranslations((prevTranslations: any) => ({ ...prevTranslations, [lang]: translation }));
+        }
     };
 
-    const getTranslation = (key: number, variables?: any) => {
-        let translation: string = translations[key] || String(key);
+    const getTranslation = (key: string, variables?: any) => {
+        let translation: string = translations[language]?.[key] || key;
         if (variables) {
             Object.keys(variables).forEach((variable) => {
                 translation = translation.replace(`{${variable}}`, variables[variable]);
             });
         }
         return translation;
-    }
+    };
 
     return (
         <I18nContext.Provider value={{ language, translations, changeLanguage, getTranslation }}>
