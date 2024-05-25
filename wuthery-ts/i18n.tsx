@@ -1,4 +1,4 @@
-import React, { useContext, useState, createContext, useEffect } from 'react';
+import React, { useContext, useState, createContext } from 'react';
 import { setCookie } from 'cookies-next';
 
 import { fetchTranslation } from './translations';
