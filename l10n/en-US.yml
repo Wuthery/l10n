@@ -1,2 +1,2 @@
-1: Example string
-2: Example string with {variable}
+test_str: Example string
+test_str_var: Example string with {variable}

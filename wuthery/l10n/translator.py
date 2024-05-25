@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Any, Self
 
@@ -28,7 +29,7 @@ class Translator:
     """
 
     def __init__(self) -> None:
-        self.localizations: dict[Language, dict[int, str]] = {}
+        self.localizations: dict[Language, dict[str, str]] = {}
         self._session: aiohttp.ClientSession | None = None
 
     async def __aenter__(self) -> Self:
@@ -58,17 +59,22 @@ class Translator:
     async def fetch_localizations(self) -> None:
         """Fetch localizations from Wuthery's l10n repository."""
         for lang in Language:
-            async with self.session.get(FILE_LOCATION.format(lang=lang.value)) as resp:
-                if resp.status != 200:
-                    LOGGER_.warning("Failed to fetch localization file for %s.", lang)
-                    continue
+            async with asyncio.TaskGroup() as tg:
+                tg.create_task(self.fetch_localization(lang))
 
-                data = await resp.text()
-                self.localizations[lang] = yaml.safe_load(data)
-                LOGGER_.info("Fetched localization for %s.", lang)
+    async def fetch_localization(self, lang: Language) -> None:
+        """Fetch a localization file for a language."""
+        async with self.session.get(FILE_LOCATION.format(lang=lang.value)) as resp:
+            if resp.status != 200:
+                LOGGER_.warning("Failed to fetch localization file for %s.", lang)
+                return
+
+            data = await resp.text()
+            self.localizations[lang] = yaml.safe_load(data)
+            LOGGER_.info("Fetched localization for %s.", lang)
 
     def translate(
-        self, key: int, lang: Language | str, *, use_fallback: bool = True, **kwargs: Any
+        self, key: str, lang: Language | str, *, use_fallback: bool = True, **kwargs: Any
     ) -> str:
         """Translate a key to a language.
 
@@ -97,7 +103,7 @@ class Translator:
         # Translate the key
         if key not in self.localizations[lang]:
             if use_fallback:
-                msg = f"Key {key} not found in localization file for {lang}. Falling back to {SOURCE_LANG}."
+                msg = f"Key {key!r} not found in localization file for {lang}. Falling back to {SOURCE_LANG}."
                 LOGGER_.warning(msg)
                 return self.translate(key, lang, use_fallback=False)
 
