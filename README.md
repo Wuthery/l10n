@@ -21,6 +21,17 @@ poetry install --with test --no-root
 pre-commit install
 ```
 
+### Typescript
+
+```bash
+# Clone the repo
+git clone https://github.com/Wuthery/l10n
+
+# Install the dependencies
+cd wuthery-l10n
+npm i
+```
+
 ## Usage
 
 ### Python Package
@@ -39,17 +50,62 @@ async with Translator() as translator:
 
 ### TypeScript Package
 
-```ts
-'use client'; // Component must be client-side
-import { useTranslation, Language } from 'wuthery-l10n';
+```bash
+# Install the package
+npm i wuthery-l10n
+```
 
-export const Component = () => {
+On server side (layout.tsx):
+```ts
+import { I18nProvider, Language } from 'wuthery-l10n/client';
+import {
+    LANGUAGE_KEY,
+    detectReqLanguage,
+    fetchTranslation,
+} from 'wuthery-l10n/server';
+import { getCookie } from 'cookies-next';
+import { headers, cookies } from 'next/headers';
+
+
+const Layout = async ({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) => {
+    let language = getCookie(LANGUAGE_KEY, { cookies }) as Language || undefined;
+    if (!language) {
+        const reqHeaders = headers();
+        language = detectReqLanguage(reqHeaders.get('accept-language') || '');
+    }
+    const translation = await fetchTranslation(language);
+    return (
+        <I18nProvider
+            initialLanguage={language}
+            initialTranslations={{[language]: translation}}
+        >
+            <html>
+                <body>
+                    {children}
+                </body>
+            </html>
+        </I18nProvider>
+    );
+};
+export default Layout;
+```
+In component:
+```ts
+'use client';
+import { useTranslation, Language } from 'wuthery-l10n/client';
+
+const Component = () => {
     const { changeLanguage, getTranslation, language } = useTranslation();
     return (
         <div>
-            <h1>{getTranslation(2, {'variable': 0})}</h1>
+            <h1>{getTranslation('test_str', {'variable': 0})}</h1>
             <button onClick={() => changeLanguage(language == Language.ZH_TW ? Language.EN_US : Language.ZH_TW)}>Change language</button>
         </div>
     );
 };
+export default Component;
 ```
