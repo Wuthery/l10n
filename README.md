@@ -99,10 +99,10 @@ In component:
 import { useTranslation, Language } from 'wuthery-l10n/client';
 
 const Component = () => {
-    const { changeLanguage, getTranslation, language } = useTranslation();
+    const { changeLanguage, t, language } = useTranslation();
     return (
         <div>
-            <h1>{getTranslation('test_str', {'variable': 0})}</h1>
+            <h1>{t('test_str', {'variable': 0})}</h1>
             <button onClick={() => changeLanguage(language == Language.ZH_TW ? Language.EN_US : Language.ZH_TW)}>Change language</button>
         </div>
     );

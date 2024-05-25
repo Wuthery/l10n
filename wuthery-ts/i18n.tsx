@@ -10,14 +10,14 @@ interface I18nContextProps {
     language: Language;
     translations: any;
     changeLanguage: (lang: Language) => void;
-    getTranslation: (key: string, variables?: any) => string;
+    t: (key: string, variables?: any) => string;
 };
 
 const I18nContext = createContext<I18nContextProps>({
     language: Language.EN_US,
     translations: {},
     changeLanguage: () => {},
-    getTranslation: () => '',
+    t: () => '',
 });
 
 type I18nProviderProps = {
@@ -38,7 +38,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ children, initialLan
         }
     };
 
-    const getTranslation = (key: string, variables?: any) => {
+    const t = (key: string, variables?: any) => {
         let translation: string = translations[language]?.[key] || key;
         if (variables) {
             Object.keys(variables).forEach((variable) => {
@@ -49,7 +49,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ children, initialLan
     };
 
     return (
-        <I18nContext.Provider value={{ language, translations, changeLanguage, getTranslation }}>
+        <I18nContext.Provider value={{ language, translations, changeLanguage, t }}>
             {children}
         </I18nContext.Provider>
     );
