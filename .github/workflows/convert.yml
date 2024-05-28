@@ -25,7 +25,7 @@ jobs:
         run: poetry install --no-root
 
       - name: Run converter
-        run: poetry run python convert.py
+        run: poetry run python scripts/convert.py
       
       - name: Set git user
         run: |
