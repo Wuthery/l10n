@@ -27,6 +27,6 @@ async def test_translate_with_var() -> None:
     """Test the translate method with a variable."""
     async with Translator() as translator:
         assert (
-            translator.translate("examplte/test-str-var", Language.EN_US, variable="Wuthery")
+            translator.translate("example/test-str-var", Language.EN_US, variable="Wuthery")
             == "Example string with Wuthery"
         )
