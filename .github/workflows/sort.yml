@@ -1,4 +1,4 @@
-name: Convert
+name: Sort
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  convert:
+  sort:
     runs-on: ubuntu-latest
 
     steps:
