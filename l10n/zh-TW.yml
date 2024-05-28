@@ -1,2 +1,2 @@
-test_str: 範例字串
-test_str_var: 一個帶有 {variable} 的測試字串
+example/test-str: 範例字串
+example/test-str-var: 一個帶有 {variable} 的測試字串
