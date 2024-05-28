@@ -9,7 +9,7 @@ import yaml
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
-LOGGER_ = logging.getLogger("convert")
+LOGGER_ = logging.getLogger(__name__)
 FOLDER = "./l10n"
 PATTERN = re.compile(r"{(.*?)}")
 
