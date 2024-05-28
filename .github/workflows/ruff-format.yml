@@ -1,12 +1,14 @@
-name: Ruff
+name: Ruff format
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
 
 jobs:
-  ruff:
+  ruff-format:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,25 +26,21 @@ jobs:
           pip install ruff
       
       - name: Set git user
+        if: github.event_name == 'push'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Run linter
-        run: ruff check --fix --output-format=github .
-
-      - name: Commit auto-fix changes
-        run: |
-          git add .
-          git diff-index --quiet HEAD || git commit -m "fix: Apply ruff auto-fixes"
       
       - name: Run formatter
+        if: github.event_name == 'push'
         run: ruff format .
 
       - name: Commit formatting changes
+        if: github.event_name == 'push'
         run: |
           git add .
           git diff-index --quiet HEAD || git commit -m "style: Apply ruff formatting"
       
       - name: Push changes
+        if: github.event_name == 'push'
         run: git push origin main
