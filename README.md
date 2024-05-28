@@ -56,6 +56,7 @@ npm i wuthery-l10n
 ```
 
 On server side (layout.tsx):
+
 ```ts
 import { I18nProvider, Language } from 'wuthery-l10n/client';
 import {
@@ -93,7 +94,9 @@ const Layout = async ({
 };
 export default Layout;
 ```
+
 In component:
+
 ```ts
 'use client';
 import { useTranslation, Language } from 'wuthery-l10n/client';
@@ -109,3 +112,8 @@ const Component = () => {
 };
 export default Component;
 ```
+
+## String conventions
+
+- Use `-` instead of `_` to seperate words, e.g. `test-str` instead of `test_str`
+- Use `/` to seperate scopes, e.g. `scope/test-str`
