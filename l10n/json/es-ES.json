@@ -1,4 +1,4 @@
 {
-    "test_str": "Example string",
-    "test_str_var": "Example string with {{variable}}"
+    "example/test-str": "Example string",
+    "example/test-str-var": "Example string with {{variable}}"
 }
