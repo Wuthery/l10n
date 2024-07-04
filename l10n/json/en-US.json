@@ -1,4 +1,8 @@
 {
+    "api/session-expired": "Your session has expired. Please, login again.",
+    "api/unable-to-authorize-code": "Invalid authorization code provided. Please, try again.",
+    "api/unable-to-fetch-user": "Unable to get information about the user. Please, try again later.",
+    "api/unauthorized": "Please, log in before accessing the resource.",
     "example/test-str": "Example string",
     "example/test-str-var": "Example string with {{variable}}"
 }
