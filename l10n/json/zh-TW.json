@@ -1,4 +1,5 @@
 {
+    "api/invalid-auth-data": "The authentication data provided is invalid. Please, try again.",
     "api/session-expired": "Your session has expired. Please, login again.",
     "api/unable-to-authorize-code": "Invalid authorization code provided. Please, try again.",
     "api/unable-to-fetch-user": "Unable to get information about the user. Please, try again later.",
