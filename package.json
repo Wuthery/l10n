@@ -1,6 +1,6 @@
 {
   "name": "wuthery-l10n",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Typescript package to interact with Wuthery's localization files.",
   "main": "dist/client.js",
   "files": [
@@ -37,6 +37,7 @@
   "homepage": "https://github.com/Wuthery/l10n#readme",
   "dependencies": {
     "@types/react": "^18.3.3",
-    "cookies-next": "^4.2.1"
+    "cookies-next": "^4.2.1",
+    "next": "^14.2.5"
   }
 }
