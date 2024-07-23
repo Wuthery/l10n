@@ -1,9 +1,9 @@
 import React, { useContext, useState, createContext } from 'react';
 import { setCookie } from 'cookies-next';
 
-import { fetchTranslation } from './translations';
-import { LANGUAGE_KEY } from './constants';
-import { Language } from './enum';
+import { fetchTranslation } from '../translations';
+import { LANGUAGE_KEY } from '../constants';
+import { Language } from '../enums';
 
 
 interface I18nContextProps {

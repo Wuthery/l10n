@@ -1,7 +1,11 @@
-const FILE_LOCATION = "https://raw.githubusercontent.com/Wuthery/l10n/main/l10n/json/";
+import { TRANSLATIONS_PATH } from './constants';
 
+/**
+ * Fetches the translation for the given language.
+ * @param lang Language to fetch translation for.
+ * @returns Translation for the given language.
+ */
 export const fetchTranslation = async (lang: string): Promise<any> => {
-    const url = FILE_LOCATION + lang + '.json'; 
-    const rsp = await fetch(url);
+    const rsp = await fetch(`${TRANSLATIONS_PATH}/${lang}.json`);
     return await rsp.json();
 };
